@@ -97,11 +97,14 @@
       const username = document.getElementById('regUsername').value;
       const password = document.getElementById('regPassword').value;
 
-      if(username.trim() && password.trim()) {
-        localStorage.setItem('savedUsername', username);
-        localStorage.setItem('savedPassword', password);
-        alert('✅ تم إنشاء الحساب بنجاح! الآن يمكنك تسجيل الدخول.');
-        window.location.href = 'login.html';
+     if(username.trim() && password.trim()) {
+  localStorage.setItem('savedUsername', username);
+  localStorage.setItem('savedPassword', password);
+  localStorage.setItem('userCoins', '0'); // NEW
+  localStorage.setItem('userAvatar', "https://i.ibb.co/YTjW3vF/default-avatar.png"); // NEW
+  alert('✅ تم إنشاء الحساب بنجاح! الآن يمكنك تسجيل الدخول.');
+  window.location.href = 'login.html';
+
       } else {
         alert('❗ من فضلك املأ كل الحقول');
       }
