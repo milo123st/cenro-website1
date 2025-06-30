@@ -24,7 +24,7 @@
 
     body {
       min-height: 100vh;
-      background: url('https://cdn.discordapp.com/attachments/1388550963044024431/1388605633439338516/Untitled-22.png?ex=68619746&is=686045c6&hm=14cb6656fbbfcfd006df7e722cb71d37d4dbe2205130193e21c564d01c67ab81&') no-repeat center center fixed;
+      background: url('https://cdn.discordapp.com/attachments/1388550963044024431/1388605633439338516/Untitled-22.png?ex=68624006&is=6860ee86&hm=d68142b4adef8f99303c27e92086435c3067d22b9b597e5f0f429aa42e2d9284&') no-repeat center center fixed;
       background-size: cover;
       color: var(--button-color);
       overflow-x: hidden;
@@ -70,10 +70,15 @@
       padding: 0 1rem;
     }
 
-    .account-button {
+    .account-buttons {
       position: absolute;
       top: 1rem;
       left: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .account-button {
       background-color: rgba(255,255,255,0.2);
       border: 1px solid rgba(255,255,255,0.3);
       color: #fff;
@@ -223,7 +228,10 @@
   </div>
 
   <header data-aos="fade-down" data-aos-duration="1500">
-    <button class="account-button" onclick="toggleSidebar()">👤 حسابي</button>
+    <div class="account-buttons">
+      <button class="account-button" onclick="toggleSidebar()">👤 حسابي</button>
+      <button class="account-button" onclick="claimReward()">🎁 مكافأة</button>
+    </div>
     <h1 id="typing"></h1>
     <p data-aos="fade-up" data-aos-delay="300">سيرفر ديسكورد الرسمي - حديث واحترافي ❤️</p>
     <div data-aos="fade-up" data-aos-delay="500" class="server-description">
@@ -232,7 +240,7 @@
   </header>
 
   <section class="buttons">
-    <button data-aos="fade-right" data-aos-delay="100" onclick="alert('📦 سيتم فتح فورم طلب بروجكت قريبًا')">
+    <button data-aos="fade-right" data-aos-delay="100" onclick="window.location.href='project-request.html'">
       📦 طلب بروجكتات
       <small>(برمجة، مواقع، بوتات، أنظمة)</small>
     </button>
@@ -289,6 +297,28 @@
 
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    function claimReward() {
+      const lastClaim = localStorage.getItem('lastRewardTime');
+      const now = Date.now();
+      const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+
+      if (lastClaim && now - parseInt(lastClaim) < TWENTY_FOUR_HOURS_MS) {
+        const remainingMs = TWENTY_FOUR_HOURS_MS - (now - parseInt(lastClaim));
+        const remainingHours = Math.floor(remainingMs / (60 * 60 * 1000));
+        const remainingMinutes = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+        alert(`❗ يمكنك أخذ المكافأة بعد ${remainingHours} ساعة و ${remainingMinutes} دقيقة.`);
+        return;
+      }
+
+      let coins = parseInt(localStorage.getItem('userCoins') || '0');
+      coins += 10000;
+      localStorage.setItem('userCoins', coins);
+      document.getElementById('coinsAmount').textContent = coins;
+
+      localStorage.setItem('lastRewardTime', now.toString());
+      alert('🎁 مبروك! حصلت على 10000 عملة 🎉');
     }
   </script>
 </body>
